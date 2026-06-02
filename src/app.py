@@ -7,6 +7,10 @@ NUMBER_OF_HISTORY = 10
 
 app = Flask(__name__, template_folder='../html', static_url_path='', static_folder='../static')
 
+connection_string = 'mystrongPW26A!'
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://app:mystrongPW26A!@localhost/database_assignment"
+
 messages = [
     # { 'message': 'test message'}
 ]
@@ -21,6 +25,9 @@ def load_from_file():
         json_string = f.read()
         return json.loads(json_string)
 
+# def save_to_database(message):
+    
+    
 
 def get_last_ten():
     current_slot = get_slot_for_current_time()
