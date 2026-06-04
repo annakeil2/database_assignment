@@ -6,7 +6,14 @@
 <p>Send anonymous messages and receive inspiration from strangers.</p>
 
 <p>{{content}}</p>
-<p class="bottledmessage"><img class='bottleimage' alt="A pixellated image of a bottled message" src="{{ url_for('static', filename='images/messageinbottle.png') }}"> {{message}}</p>
+
+{% if message %}
+<p class="bottledmessage">
+    <img class='bottleimage' alt="A pixellated image of a bottled message" src="{{ url_for('static', filename='images/messageinbottle.png') }}">
+    {{message.message}}
+</p>
+{% endif %}
+
 <a href="/submit"><button>Send a Message</button></a>
 
 <div id="timer"></div>
