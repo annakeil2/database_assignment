@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: url('/images/seabackground.jpg');  
+    background: url('/images/dropbackground.jpg');  
     background-repeat: no-repeat;
     background-size: cover;
     color: white;
@@ -10,7 +10,7 @@ body {
 }
 
 nav {
-    background: rgba(0,0,0,0.2);
+    background: rgba(1, 10, 54, 0.978);
     padding: 15px;
 }
 
@@ -25,7 +25,7 @@ nav a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 textarea, input {
@@ -37,7 +37,7 @@ textarea, input {
 
 button {
     margin-top: 15px;
-    background: #ef9ee5;
+    background: #e777da;
     border: none;
     padding: 12px 25px;
     color: white;
@@ -78,5 +78,5 @@ ol {
 
 ol li {
     padding: 8px;
-    color: black;
+    color: rgb(255, 255, 255);
 }
