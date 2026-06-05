@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -15,8 +16,12 @@ app = Flask(
     static_folder='../static'
     )
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://"\
-    "app:mystrongPW26A!@localhost/database_assignment"
+db = os.environ['DB_NAME']
+host = os.environ['DB_HOST']
+user = os.environ['DB_USER']
+password = os.environ['DB_PASSWORD']
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://" + user + ":" + password + "@" + host + "/" + db
 
 
 class Base(DeclarativeBase):
@@ -38,39 +43,6 @@ class Message(db.Model):
     def __repr__(self):
         return f"<Message(id={self.id}, "\
             "slot={self.slot}, message={self.message})>"
-
-
-def save_to_file(messages):
-    with open("../data/messagebank.json", "w") as f:
-        f.write(json.dumps(messages))
-
-
-def load_from_file():
-    with open("../data/messagebank.json", "r") as f:
-        json_string = f.read()
-        return json.loads(json_string)
-
-
-# Create messages from the messagebank.json
-# Only run once
-def populate_messages():
-    with app.app_context():
-        old_messages = load_from_file()
-        print('old_messages', old_messages)
-
-        for i in range(len(old_messages) - 1, -1, -1):
-            old_message = old_messages[i]
-            message = Message(
-                message=old_message['message'],
-                create_date=datetime.fromtimestamp(old_message['created_at']),
-                slot=old_message['slot']
-            )
-            print(message)
-
-            # Insert the message into the DB
-            db.session.add(message)
-
-        db.session.commit()
 
 
 # Get the last ten messages regardless of slot
