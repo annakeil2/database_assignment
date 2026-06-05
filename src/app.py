@@ -7,14 +7,24 @@ from datetime import datetime
 MAX_MESSAGE_SLOT = 95
 NUMBER_OF_HISTORY = 10
 
-app = Flask(__name__, root_path=".", template_folder='../html', static_url_path='', static_folder='../static')
+app = Flask(
+    __name__,
+    root_path=".",
+    template_folder='../html',
+    static_url_path='',
+    static_folder='../static'
+    )
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://app:mystrongPW26A!@localhost/database_assignment"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://"\
+    "app:mystrongPW26A!@localhost/database_assignment"
+
 
 class Base(DeclarativeBase):
     pass
 
+
 db = SQLAlchemy(app, model_class=Base)
+
 
 class Message(db.Model):
     __tablename__ = "messages"
@@ -26,13 +36,14 @@ class Message(db.Model):
 
     # Display the message when printed
     def __repr__(self):
-        return f"<Message(id={self.id}, slot={self.slot}, message={self.message})>"
+        return f"<Message(id={self.id}, "\
+            "slot={self.slot}, message={self.message})>"
 
 
 def save_to_file(messages):
     with open("../data/messagebank.json", "w") as f:
         f.write(json.dumps(messages))
-        
+
 
 def load_from_file():
     with open("../data/messagebank.json", "r") as f:
@@ -61,9 +72,9 @@ def populate_messages():
 
         db.session.commit()
 
-    
+
 # Get the last ten messages regardless of slot
-def get_last_messages(n = 10):
+def get_last_messages(n=10):
     return db.session.execute(
         db.select(Message)
         .limit(n)
@@ -89,7 +100,7 @@ def get_next_slot():
         slot = last_message.slot
         if slot == MAX_MESSAGE_SLOT:
             return 0
-        
+
         return slot + 1
     else:
         print('no last message found')
@@ -104,7 +115,7 @@ def get_slot_for_current_time():
     if minute < 15:
         slot = slot
     elif minute < 30:
-        slot = slot +1
+        slot = slot + 1
     elif minute < 45:
         slot = slot + 2
     else:
@@ -119,20 +130,23 @@ def get_message_for_current_time():
     # Get the latest message for the slot
     return db.session.execute(
         db.select(Message)
-            .where(Message.slot == slot)
-            .order_by(Message.id.desc())
-            .limit(1)
+          .where(Message.slot == slot)
+          .order_by(Message.id.desc())
+          .limit(1)
     ).scalar()
+
 
 @app.route('/')
 def index():
     content = ''
     message = get_message_for_current_time()
     if message is None:
-        # If we don't have a message for a time slot just display the last message
+        # If we don't have a message for a time
+        # slot just display the last message
         message = get_last_message()
         if message is None:
-            content = "You haven't been sent any bottled messages yet. But you can be the first to send one!"
+            content = "You haven't been sent any bottled messages yet."\
+                " But you can be the first to send one!"
             message = ''
 
     return render_template('index.html', content=content, message=message)
@@ -152,7 +166,9 @@ def add():
         print("slot", slot)
 
         # Create a new message with the last slot + 1
-        message = Message(message=content, create_date=datetime.now(), slot=slot)
+        message = Message(message=content,
+                          create_date=datetime.now(),
+                          slot=slot)
         print(message)
 
         # Insert the message into the DB
@@ -161,6 +177,7 @@ def add():
         db.session.commit()
 
     return redirect(url_for('index'))
+
 
 @app.route('/about')
 def about():
@@ -172,7 +189,8 @@ def contact():
     if request.method == 'GET':
         return render_template('contact.html')
     name = request.form['name']
-    return render_template('contact_result.html', name = name)
+    return render_template('contact_result.html', name=name)
+
 
 @app.route('/history')
 def history():
@@ -183,5 +201,3 @@ def history():
 # Start the app
 if __name__ == '__main__':
     app.run(debug=True)
-
-# populate_messages()

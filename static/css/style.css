@@ -4,6 +4,7 @@ body {
     background: url('/images/dropbackground.jpg');  
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: #03194a;
     color: white;
     text-align: center;
     font-size: 1.4rem;
@@ -26,6 +27,7 @@ nav a {
     flex-direction: column;
     align-items: center;
     color: rgb(255, 255, 255);
+    padding: 0 10px;
 }
 
 textarea, input {
@@ -35,7 +37,7 @@ textarea, input {
     border: none;
 }
 
-button {
+button, .button {
     margin-top: 15px;
     background: #e777da;
     border: none;
@@ -74,9 +76,28 @@ form {
 
 ol {
     text-align: left;
+    align-self: flex-start;
 }
 
 ol li {
     padding: 8px;
     color: rgb(255, 255, 255);
+}
+
+#timer {
+    margin: 2rem;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    nav a {
+        font-size: 1.32rem;
+        margin: 0 2px;
+    }
 }
