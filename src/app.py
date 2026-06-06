@@ -21,7 +21,8 @@ host = os.environ['DB_HOST']
 user = os.environ['DB_USER']
 password = os.environ['DB_PASSWORD']
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://" + user + ":" + password + "@" + host + "/" + db
+app.config["SQLALCHEMY_DATABASE_URI"] = ("postgresql://" + user + ":" +
+                                         password + "@" + host + "/" + db)
 
 
 class Base(DeclarativeBase):

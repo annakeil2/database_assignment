@@ -1,11 +1,31 @@
-# Message in a Bottle Application 
+# Database Assignment
 
 ## Project Description
 This application allows users to get inspired by others by receiving a bottled message every 15 minutes that was sent by another random other user. 
+
 It is built on the idea of real life bottled message practices. The goal is to get inspired or motivated by someone else's message. 
-The application consists of 5 pages. One where users receive a bottled messaged sent by another user every 15 minutes (including a timer), 
-a 'Send' page where one can type up and send a message through a form for other users to be received, a 'History' page listing the last 10 submitted messages as a record, an simple
-'About' page detailing the goal and mission of the application, as well as a 'Contact' page where users are invited to send the creators any feedback.
+
+The application consists of 5 pages. One where users receive a bottled messaged sent by another user every 15 minutes (including a timer), a 'Send' page where one can type up and send a message through a form for other users to be received, a 'History' page listing the last 10 submitted messages as a record, an simple 'About' page detailing the goal and mission of the application, as well as a 'Contact' page where users are invited to send the creators any feedback.
+
+## Database Description
+A table `messages` was created to hold the bottle messages. The table has an auto-incrementing primary key, a create_date timestamp, a text message field, and an integer slot.
+
+The slot contains an integer referencing the 15-minute time slot during the day when it should display the message. The slot is calculated before inserting the message, and messages are selected based on the slot, from the database. 
+
+I used SQLAlechemy to access the database from Python. I used a Message class to map Python values to the PostgreSQL database. I updated all the functions that were retrieving or storing messages and had them use the PostgreSQL database.
+
+I added a script `populate_db.py` to write initial messaged to the database to enhance user experience on first deploy.
+
+I deployed the PostgreSQL database to render.com alongside the Python project and I passed the database credentials into my app.py script using environmental variables.
+
+## Fixes and Enhancements
+I received valuable feedback on my last assignment in the course (Python assignment) and I made sure I took all the suggestions and feedback onboard. Among some other enhancements and fixes, I made sure to make the site more inclusive with adding better contrasting colours and font sizes, and a less distracting background. These changes greatly improved useability.
+
+Based on the previous feedback, I also made sure to add multiple media queries to make the app work on all screensizes, again adding to the improved useability of the app.
+
+As for the timer fix that was outlined in the feedback, previously the timer just counted down 15 minutes. I now made it count down to the _next_ 15th minute of the hour. 
+
+I also made sure to validate all the python, html, and css code on trusted validator sites, as well as linters. The html and css pass validation fully and completely. However, the python code shows one single exeption in the Pep8: line 38 where Pep8 does not like the named argument following the property declaration. 
 
 ## Features
 
@@ -74,8 +94,8 @@ I also used Python to process the contact form, where the website accepts the us
 
 This site has been deployed to GitHub Pages at the URL below:
 
-[https://github.com/annakeil2/MessageInABottle](https://github.com/annakeil2/MessageInABottle)
+[https://github.com/annakeil2/database_assignment](https://github.com/annakeil2/database_assignment)
 
 Link to render.com deployment below:
 
-[https://messageinabottle-wq5c.onrender.com/](https://messageinabottle-wq5c.onrender.com/)
+[https://database-assignment-ohok.onrender.com/](https://database-assignment-ohok.onrender.com/)
